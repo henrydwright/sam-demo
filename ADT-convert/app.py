@@ -1,6 +1,6 @@
 import json
 
-# import requests
+import convert
 
 
 def lambda_handler(event, context):
@@ -25,18 +25,13 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
+    v2msg = event["body"]
+    
+    print(json.dumps({"thing": v2msg}))
 
-    #     raise e
+    fhir_msg = convert.v2toFHIR(v2msg)
 
     return {
         "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
+        "body": fhir_msg
     }
